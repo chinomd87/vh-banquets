@@ -1,0 +1,16 @@
+{
+  "git-autoconfig.configurations": [
+    {
+      "pattern": "**/chino-skincare*/**",
+      "user.name": "Matthew Dionisopoulos",
+      "user.email": "matthew@chino-skincare.com"
+    },
+    {
+      "pattern": "**/vh-banquets*/**",
+      "user.name": "Matthew Dionisopoulos",
+      "user.email": "matthew@chino-skincare.com"
+    }
+  ],
+  "git-autoconfig.configFile": "~/.gitautoconfig",
+  "sourcery.accountId": "chinomd87"
+}
