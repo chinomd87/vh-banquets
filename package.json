@@ -2,6 +2,7 @@
   "name": "vh-banquets",
   "version": "0.1.0",
   "description": "Professional event management and banquet planning application with accessibility features",
+  "homepage": "https://vhbanquets.com",
   "private": true,
   "keywords": [
     "banquet",
@@ -47,7 +48,12 @@
     "eject": "react-scripts eject",
     "build:analyze": "npm run build && npx serve -s build",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build:prod": "GENERATE_SOURCEMAP=false npm run build",
+    "deploy:build": "npm run build:prod && npm run optimize:images",
+    "optimize:images": "echo 'Image optimization placeholder - add imagemin if needed'",
+    "serve:prod": "npx serve -s build -l 3000",
+    "preview": "npm run build:prod && npm run serve:prod"
   },
   "eslintConfig": {
     "extends": [

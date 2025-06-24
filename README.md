@@ -1,8 +1,87 @@
-# Getting Started with Create React App
+# VH Banquets - Professional Event Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive event management and banquet planning application built with React, featuring accessibility, security, and modern deployment practices.
 
-## Available Scripts
+🌐 **Live Site**: [vhbanquets.com](https://vhbanquets.com)
+
+## Features
+
+- 📋 **Event Management**: Create, edit, and manage banquet events
+- 👥 **Staff Management**: Manage staff members with roles and contact information
+- 🏗️ **Floor Plan Editor**: Interactive floor plan designer with drag-and-drop functionality
+- 📄 **PDF Analysis**: Upload and analyze event documents
+- 📊 **Analytics Dashboard**: Track event metrics and performance
+- ♿ **Accessibility**: WCAG 2.1 compliant with screen reader support
+- 🔒 **Security**: Hardened with security headers and best practices
+- 🐳 **Docker Support**: Containerized deployment with monitoring
+- 📱 **Responsive Design**: Works on desktop, tablet, and mobile devices
+
+## Quick Start
+
+### Development
+```bash
+npm install
+npm start
+```
+
+### Production Build
+```bash
+npm run build:prod
+```
+
+### Deployment to vhbanquets.com
+```bash
+./build-deploy.sh
+```
+
+## Deployment Options
+
+### Option 1: Traditional Web Hosting (cPanel)
+1. Run `./build-deploy.sh` to create deployment package
+2. Upload contents of `deploy/` folder to your `public_html` directory
+3. Configure domain to point to vhbanquets.com
+4. Set up SSL certificate
+
+### Option 2: Netlify (Recommended)
+1. Connect your GitHub repository to Netlify
+2. Set build command: `npm run build:prod`
+3. Set publish directory: `build`
+4. Configure custom domain: vhbanquets.com
+
+### Option 3: Vercel
+1. Connect GitHub repository to Vercel
+2. Deploy automatically with zero configuration
+3. Configure custom domain: vhbanquets.com
+
+### Option 4: Docker Deployment
+```bash
+docker-compose up -d
+```
+
+## Environment Configuration
+
+### Production (.env.production)
+- `REACT_APP_API_URL=https://api.vhbanquets.com`
+- `REACT_APP_DOMAIN=vhbanquets.com`
+- `GENERATE_SOURCEMAP=false`
+
+## Security Features
+
+- 🛡️ Content Security Policy (CSP)
+- 🔒 Security headers (HSTS, X-Frame-Options, etc.)
+- 🚫 Source map disabled in production
+- 🔐 Docker security hardening
+- 📊 Monitoring with Prometheus and Grafana
+
+## Monitoring & Analytics
+
+- **Prometheus**: Application metrics
+- **Grafana**: Dashboards and visualization  
+- **cAdvisor**: Container monitoring
+- **Alertmanager**: Alert management
+- **Lighthouse CI**: Performance auditing
+
+## Development Scripts
 
 In the project directory, you can run:
 
