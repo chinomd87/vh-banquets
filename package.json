@@ -60,6 +60,14 @@
       "__initial_auth_token": "readonly"
     }
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-dnd|react-dnd-html5-backend|dnd-core|@react-dnd|uuid|lucide-react|pdfjs-dist)/)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",

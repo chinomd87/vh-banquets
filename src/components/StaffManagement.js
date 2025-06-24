@@ -44,16 +44,38 @@ export default function StaffManagement() {
       <h2 className="text-2xl font-bold mb-4 text-gray-800">Staff Management</h2>
       <form onSubmit={handleSubmit} className="mb-6 bg-white p-4 rounded shadow">
         <div className="mb-2">
-          <label className="block text-sm font-medium text-gray-700">Name</label>
-          <input name="name" value={form.name} onChange={handleChange} required className="w-full border rounded px-3 py-2 mt-1" />
+          <label htmlFor="staff-name" className="block text-sm font-medium text-gray-700">Name</label>
+          <input 
+            id="staff-name" 
+            name="name" 
+            value={form.name} 
+            onChange={handleChange} 
+            required 
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+          />
         </div>
         <div className="mb-2">
-          <label className="block text-sm font-medium text-gray-700">Role</label>
-          <input name="role" value={form.role} onChange={handleChange} required className="w-full border rounded px-3 py-2 mt-1" />
+          <label htmlFor="staff-role" className="block text-sm font-medium text-gray-700">Role</label>
+          <input 
+            id="staff-role" 
+            name="role" 
+            value={form.role} 
+            onChange={handleChange} 
+            required 
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+          />
         </div>
         <div className="mb-2">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input name="email" type="email" value={form.email} onChange={handleChange} required className="w-full border rounded px-3 py-2 mt-1" />
+          <label htmlFor="staff-email" className="block text-sm font-medium text-gray-700">Email</label>
+          <input 
+            id="staff-email" 
+            name="email" 
+            type="email" 
+            value={form.email} 
+            onChange={handleChange} 
+            required 
+            className="w-full border border-gray-300 rounded px-3 py-2 mt-1 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+          />
         </div>
         <button type="submit" className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
           {editing ? 'Update Staff' : 'Add Staff'}

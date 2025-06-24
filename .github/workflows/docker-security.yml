@@ -49,7 +49,7 @@ jobs:
           severity: CRITICAL,HIGH
       
       - name: Upload Trivy scan results (frontend)
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v3.29.0
         if: always()
         with:
           sarif_file: trivy-frontend-results.sarif
@@ -66,7 +66,7 @@ jobs:
           severity: CRITICAL,HIGH
       
       - name: Upload Trivy scan results (backend)
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v3.29.0
         if: always()
         with:
           sarif_file: trivy-backend-results.sarif
