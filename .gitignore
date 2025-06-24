@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Large files and JDK
+**/Oracle_JDK*
+*.jdk
+**/*.jdk

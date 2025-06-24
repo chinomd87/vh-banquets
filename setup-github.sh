@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# VH Banquets - GitHub Repository Setup
+echo "🔗 Connecting your VH Banquets app to GitHub..."
+echo ""
+echo "⚠️  IMPORTANT: Replace 'YOUR_USERNAME' with your actual GitHub username"
+echo ""
+echo "Commands to run after creating GitHub repository:"
+echo "================================================"
+echo ""
+echo "1. Add GitHub as remote:"
+echo "   git remote add origin https://github.com/YOUR_USERNAME/vh-banquets.git"
+echo ""
+echo "2. Push to GitHub:"
+echo "   git branch -M main"
+echo "   git push -u origin main"
+echo ""
+echo "3. Verify connection:"
+echo "   git remote -v"
+echo ""
+echo "🎉 After this, your code will be on GitHub and ready for Netlify!"
+echo ""
+echo "Next step: Go to netlify.com and connect this GitHub repository"
