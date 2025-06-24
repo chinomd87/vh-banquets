@@ -1,5 +1,5 @@
 # Dockerfile for React frontend (production optimized)
-FROM node:20-alpine AS build
+FROM node:22-alpine3.20 AS build
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci --production --ignore-scripts \
