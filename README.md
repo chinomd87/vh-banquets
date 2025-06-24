@@ -19,17 +19,20 @@ A comprehensive event management and banquet planning application built with Rea
 ## Quick Start
 
 ### Development
+
 ```bash
 npm install
 npm start
 ```
 
 ### Production Build
+
 ```bash
 npm run build:prod
 ```
 
 ### Deployment to vhbanquets.com
+
 ```bash
 ./build-deploy.sh
 ```
@@ -37,23 +40,27 @@ npm run build:prod
 ## Deployment Options
 
 ### Option 1: Traditional Web Hosting (cPanel)
+
 1. Run `./build-deploy.sh` to create deployment package
 2. Upload contents of `deploy/` folder to your `public_html` directory
 3. Configure domain to point to vhbanquets.com
 4. Set up SSL certificate
 
 ### Option 2: Netlify (Recommended)
+
 1. Connect your GitHub repository to Netlify
 2. Set build command: `npm run build:prod`
 3. Set publish directory: `build`
 4. Configure custom domain: vhbanquets.com
 
 ### Option 3: Vercel
+
 1. Connect GitHub repository to Vercel
 2. Deploy automatically with zero configuration
 3. Configure custom domain: vhbanquets.com
 
 ### Option 4: Docker Deployment
+
 ```bash
 docker-compose up -d
 ```
@@ -61,6 +68,7 @@ docker-compose up -d
 ## Environment Configuration
 
 ### Production (.env.production)
+
 - `REACT_APP_API_URL=https://api.vhbanquets.com`
 - `REACT_APP_DOMAIN=vhbanquets.com`
 - `GENERATE_SOURCEMAP=false`
