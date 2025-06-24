@@ -1,0 +1,171 @@
+version: '3.8'
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsSL -m 5 -w '%{http_code}' http://localhost | tee /tmp/health && grep '<div id=\"root\">' /tmp/health && grep '200' /tmp/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - appnet
+    # Add exporter as a sidecar
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    restart: unless-stopped
+    command:
+      - -nginx.scrape-uri=http://frontend/nginx_status
+    ports:
+      - "9113:9113"
+    depends_on:
+      - frontend
+    networks:
+      - appnet
+  backend:
+    build: ./api
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./api/.env
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsSL -m 5 -w '%{http_code}' http://localhost:3001/api/health | tee /tmp/health && grep 'ok' /tmp/health && grep '200' /tmp/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - appnet
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alert.rules.yml:/etc/prometheus/alert.rules.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-lifecycle
+    ports:
+      - "9090:9090"
+    depends_on:
+      - nginx-exporter
+      - alertmanager
+    networks:
+      - appnet
+    # Alertmanager integration
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+    ports:
+      - "9093:9093"
+    networks:
+      - appnet
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3002:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - appnet
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-changeMe!}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_PATHS_DATA=/var/lib/grafana
+      - GF_SERVER_ROOT_URL=http://localhost:3002
+      - GF_SECURITY_DISABLE_GRAVATAR=true
+      - GF_SECURITY_COOKIE_SECURE=true
+      - GF_SECURITY_COOKIE_SAMESITE=strict
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_AUTH_BASIC_ENABLED=true
+      - GF_AUTH_DISABLE_LOGIN_FORM=false
+      - GF_AUTH_DISABLE_SIGNOUT_MENU=false
+      - GF_SERVER_PROTOCOL=http
+      - GF_SERVER_DOMAIN=localhost
+      - GF_SERVER_ENABLE_GZIP=true
+      - GF_SECURITY_ALLOW_EMBEDDING=false
+      - GF_SECURITY_X_FRAME_OPTIONS=DENY
+      - GF_SECURITY_CONTENT_SECURITY_POLICY=true
+      - GF_SECURITY_CONTENT_SECURITY_POLICY_TEMPLATE=default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - appnet
+
+  falco:
+    image: falcosecurity/falco:latest
+    privileged: true
+    network_mode: host
+    pid: host
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - /dev:/host/dev
+      - /proc:/host/proc:ro
+      - /boot:/host/boot:ro
+      - /lib/modules:/host/lib/modules:ro
+      - /usr:/host/usr:ro
+    command: >
+      falco -u
+    restart: unless-stopped
+    depends_on:
+      - frontend
+      - backend
+    environment:
+      - FALCO_JSON_OUTPUT=true
+      - FALCO_LOG_STDOUT=true
+    # Optionally, mount a custom rules file:
+    # - ./falco_rules.yaml:/etc/falco/falco_rules.local.yaml
+
+volumes:
+  grafana-data:
+    driver: local
+
+networks:
+  appnet:
+    driver: bridge

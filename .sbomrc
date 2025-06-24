@@ -1,0 +1,6 @@
+{
+  "sbom": {
+    "enabled": true,
+    "output": "sbom.json"
+  }
+}

@@ -1,0 +1,12 @@
+apiVersion: 1
+
+# Pre-provision Prometheus as a data source
+# Docs: https://grafana.com/docs/grafana/latest/administration/provisioning/#datasources
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: true

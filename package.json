@@ -1,25 +1,53 @@
 {
   "name": "vh-banquets",
   "version": "0.1.0",
+  "description": "Professional event management and banquet planning application with accessibility features",
   "private": true,
+  "keywords": [
+    "banquet",
+    "event-management",
+    "catering",
+    "restaurant",
+    "accessibility",
+    "react",
+    "pwa"
+  ],
+  "author": "Matthew Dionisopoulos",
+  "license": "UNLICENSED",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.10.0",
+    "canvas": "^3.1.1",
+    "date-fns": "^4.1.0",
     "firebase": "^11.9.1",
+    "form-data": "^4.0.3",
     "lucide-react": "^0.522.0",
+    "node-fetch": "^2.7.0",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^5.3.31",
     "react": "^19.1.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
+    "react-pdf": "^9.2.1",
     "react-scripts": "5.0.1",
+    "react-to-print": "^3.1.0",
+    "recharts": "^3.0.0",
+    "uuid": "^11.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:analyze": "npm run build && npx serve -s build",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "eslintConfig": {
     "extends": [

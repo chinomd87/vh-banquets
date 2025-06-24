@@ -1,0 +1,21 @@
+{
+  "name": "vh-banquets-api",
+  "version": "1.0.0",
+  "description": "Backend API for VH Banquets Runway ML integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@runwayml/sdk": "^2.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0",
+    "multer": "^1.4.4-lts.1",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

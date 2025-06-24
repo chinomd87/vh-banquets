@@ -1,0 +1,25 @@
+version: 2
+
+registries:
+  docker-hub:
+    type: docker-registry
+    url: https://index.docker.io/v1/
+
+scanners:
+  trivy:
+    type: trivy
+    enabled: true
+
+# Scan all images built in this repo
+scan:
+  images:
+    - "vh-banquets-frontend"
+    - "vh-banquets-backend"
+
+# Fail the build on critical vulnerabilities
+fail_on:
+  severity: critical
+
+# Exclude known false positives (optional)
+# ignore:
+#   - CVE-2024-XXXX

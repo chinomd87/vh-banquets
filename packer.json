@@ -1,0 +1,16 @@
+{
+  "builders": [
+    {
+      "builder": "docker",
+      "platform": "linux/amd64"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apk update && apk upgrade --no-cache"
+      ]
+    }
+  ]
+}

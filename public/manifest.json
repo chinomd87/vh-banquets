@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "VH Banquets",
+  "name": "VH Banquets - Event Management System",
+  "description": "Professional event management and banquet planning application",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,8 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#4f46e5",
+  "background_color": "#ffffff",
+  "categories": ["business", "productivity", "food"],
+  "orientation": "portrait-primary"
 }

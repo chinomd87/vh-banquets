@@ -1,0 +1,49 @@
+groups:
+  - name: instance-health
+    rules:
+      - alert: FrontendDown
+        expr: up{job="nginx-frontend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Frontend (NGINX) is down"
+          description: "No metrics received from the frontend NGINX exporter for more than 1 minute."
+
+      - alert: BackendDown
+        expr: up{job="backend-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backend API is down"
+          description: "No metrics received from the backend API for more than 1 minute."
+
+      - alert: CAdvisorDown
+        expr: up{job="cadvisor-metrics"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "cAdvisor is down"
+          description: "No metrics received from cAdvisor for more than 2 minutes."
+
+  - name: nginx-health
+    rules:
+      - alert: HighNginx4xxErrorRate
+        expr: rate(nginx_http_requests_total{status=~"4.."}[5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High rate of 4xx errors on frontend NGINX"
+          description: "More than 5 4xx errors per second on frontend NGINX over the last 5 minutes."
+
+      - alert: HighNginx5xxErrorRate
+        expr: rate(nginx_http_requests_total{status=~"5.."}[5m]) > 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High rate of 5xx errors on frontend NGINX"
+          description: "More than 1 5xx error per second on frontend NGINX over the last 5 minutes."

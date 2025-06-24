@@ -1,0 +1,73 @@
+name: Docker Image Security Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Security: Restrict workflow permissions
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+    # Security: Prevent workflow from running on forks
+    if: github.repository == 'matthewdionisopoulos/vh-banquets'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Security: Limit checkout depth
+          fetch-depth: 1
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build frontend image
+        run: |
+          docker build -t vh-banquets-frontend . \
+            --no-cache \
+            --pull
+      
+      - name: Build backend image
+        run: |
+          docker build -t vh-banquets-backend ./api \
+            --no-cache \
+            --pull
+      
+      - name: Run Trivy scan (frontend)
+        uses: aquasecurity/trivy-action@0.31.0
+        with:
+          image-ref: vh-banquets-frontend
+          format: sarif
+          output: trivy-frontend-results.sarif
+          exit-code: 1
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
+      
+      - name: Upload Trivy scan results (frontend)
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-frontend-results.sarif
+          category: trivy-frontend
+      
+      - name: Run Trivy scan (backend)
+        uses: aquasecurity/trivy-action@0.31.0
+        with:
+          image-ref: vh-banquets-backend
+          format: sarif
+          output: trivy-backend-results.sarif
+          exit-code: 1
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
+      
+      - name: Upload Trivy scan results (backend)
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-backend-results.sarif
+          category: trivy-backend
