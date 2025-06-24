@@ -15,7 +15,7 @@ jobs:
   trivy-scan:
     runs-on: ubuntu-latest
     # Security: Prevent workflow from running on forks
-    if: github.repository == 'matthewdionisopoulos/vh-banquets'
+    if: github.repository == 'chinomd87/vh-banquets'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

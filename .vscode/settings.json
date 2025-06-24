@@ -58,14 +58,30 @@
     "tmpfs",
     "uorif",
     "uuidv",
+    "vhbanquets",
     "WCAG",
     "WVMFC",
-    "yourpassword"
+    "yourpassword",
+    "HOTJAR",
+    "HSTS",
+    "clickjacking",
+    "securityheaders",
+    "nwtgck",
+    "jakejarvis",
+    "treosh"
   ],
   "css.validate": true,
   "css.lint.unknownAtRules": "ignore",
   "scss.validate": true,
   "scss.lint.unknownAtRules": "ignore",
   "less.validate": true,
-  "less.lint.unknownAtRules": "ignore"
+  "less.lint.unknownAtRules": "ignore",
+  "markdownlint.config": {
+    "files": {
+      "exclude": [
+        "**/public/_redirects",
+        "**/public/.htaccess"
+      ]
+    }
+  }
 }
