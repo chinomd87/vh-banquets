@@ -3,8 +3,15 @@
 import { useState, useCallback } from "react";
 import PropTypes from 'prop-types';
 import { Toaster } from 'react-hot-toast';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useData } from './contexts/AppContext';
 import { useChickenLoader } from './hooks/useChickenLoader';
+import { AuthProvider } from './contexts/AuthContext';
+import AuthWrapper from './components/AuthWrapper';
+
+// Authentication and E-signature Components
+import ESignaturePage from './components/ESignaturePage';
+import ContractManagement from './components/ContractManagement';
 
 // Page Components
 import ClientPortalPage from './components/ClientPortalPage';
@@ -83,6 +90,7 @@ function renderPage(page, selectedEvent, navigateTo, handleEventUpdate) {
     staff: () => <StaffManagement />,
     clientPortal: () => <ClientPortalPage navigateTo={navigateTo} />,
     contracts: () => <ContractsPage navigateTo={navigateTo} />,
+    contractManagement: () => <ContractManagement />,
     analytics: () => <AnalyticsDashboard navigateTo={navigateTo} />,
     floorPlan: () => <FloorPlanEditor navigateTo={navigateTo} />,
     inventory: () => <InventoryManagement navigateTo={navigateTo} />,
@@ -144,6 +152,39 @@ MainContent.propTypes = {
 
 // Main App Component
 export default function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/sign/:sessionId" element={<ESignaturePage />} />
+          <Route path="/signature-complete" element={
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+              <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
+                <div className="text-green-500 text-6xl mb-4">✓</div>
+                <h2 className="text-2xl font-semibold text-gray-900 mb-4">Signature Complete!</h2>
+                <p className="text-gray-600 mb-6">Your contract has been successfully signed and recorded.</p>
+                <button 
+                  onClick={() => window.close()}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Close Window
+                </button>
+              </div>
+            </div>
+          } />
+          <Route path="/*" element={
+            <AuthWrapper>
+              <AppContent />
+            </AuthWrapper>
+          } />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
+}
+
+// App Content Component (the main application)
+function AppContent() {
   const {
     page,
     setPage,

@@ -26,3 +26,20 @@ yarn-error.log*
 **/Oracle_JDK*
 *.jdk
 **/*.jdk
+
+# C# / .NET build artifacts
+/bin/
+/obj/
+*.user
+*.suo
+*.cache
+*.pdb
+*.dll
+*.exe
+/build_output/
+/Program.cs
+/vh-banquets.csproj
+
+# Environment files with secrets
+api/.env
+.env

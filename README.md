@@ -11,6 +11,7 @@ A comprehensive event management and banquet planning application built with Rea
 - 🏗️ **Floor Plan Editor**: Interactive floor plan designer with drag-and-drop functionality
 - 📄 **PDF Analysis**: Upload and analyze event documents
 - 📊 **Analytics Dashboard**: Track event metrics and performance
+- ✍️ **Digital Signatures**: RhodeSign integration for secure contract signing
 - ♿ **Accessibility**: WCAG 2.1 compliant with screen reader support
 - 🔒 **Security**: Hardened with security headers and best practices
 - 🐳 **Docker Support**: Containerized deployment with monitoring
@@ -84,7 +85,7 @@ docker-compose up -d
 ## Monitoring & Analytics
 
 - **Prometheus**: Application metrics
-- **Grafana**: Dashboards and visualization  
+- **Grafana**: Dashboards and visualization
 - **cAdvisor**: Container monitoring
 - **Alertmanager**: Alert management
 - **Lighthouse CI**: Performance auditing
@@ -94,6 +95,49 @@ docker-compose up -d
 In the project directory, you can run:
 
 ### `npm start`
+
+Runs the app in the development mode.
+
+## RhodeSign Integration
+
+VH Banquets is integrated with RhodeSign for secure digital contract signing.
+
+### Signature Features
+
+- 🔐 **Secure Digital Signatures**: Legally binding electronic signatures
+- 📝 **Contract Generation**: Automatic contract creation from event data
+- 🔔 **Real-time Updates**: Webhook-based status notifications
+- 📊 **Signature Dashboard**: Monitor all signature workflows
+- 🔄 **Automatic Retry**: Built-in retry mechanisms for failed attempts
+
+### Setup
+
+See [RHODESIGN_INTEGRATION.md](RHODESIGN_INTEGRATION.md) for detailed setup instructions.
+
+### Quick Setup
+
+```bash
+# Backend environment
+RHODESIGN_API_KEY=your_api_key
+RHODESIGN_WEBHOOK_SECRET=your_secret
+
+# Frontend environment
+REACT_APP_RHODESIGN_ENABLED=true
+```
+
+## Documentation
+
+- 📋 [Deployment Guide](DEPLOYMENT.md)
+- ✅ [Deployment Checklist](DEPLOYMENT-CHECKLIST.md)
+- 🔐 [RhodeSign Integration](RHODESIGN_INTEGRATION.md)
+- 🌐 [GitHub Setup](GITHUB-SETUP.md)
+- 🚀 [Netlify Setup](NETLIFY-SETUP.md)
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start` (Development)
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.

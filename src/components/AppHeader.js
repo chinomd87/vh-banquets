@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useAuth } from '../contexts/AuthContext';
 import { 
   Menu as MenuIcon, 
   BarChart3, 
   Layout, 
   Boxes,
   Wand2,
+  FileText,
+  LogOut,
+  User,
   X as CloseIcon
 } from 'lucide-react';
 
 export function AppHeader({ setPage, currentPage }) {
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
@@ -18,6 +23,7 @@ export function AppHeader({ setPage, currentPage }) {
     { id: 'staff', label: 'Staff' },
     { id: 'clientPortal', label: 'Client Portal' },
     { id: 'contracts', label: 'Contracts' },
+    { id: 'contractManagement', label: 'E-Signatures', icon: FileText },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'floorPlan', label: 'Floor Plan', icon: Layout },
     { id: 'inventory', label: 'Inventory', icon: Boxes },
@@ -31,6 +37,10 @@ export function AppHeader({ setPage, currentPage }) {
   const handleNavigation = (pageId) => {
     setPage(pageId);
     setIsMobileMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    await logout();
   };
 
   const getButtonClass = (pageId) => 
@@ -77,7 +87,26 @@ export function AppHeader({ setPage, currentPage }) {
             ))}
           </nav>
 
-          {/* Mobile menu button */}
+          <div className="flex items-center space-x-4">
+            {/* User Profile */}
+            <div className="flex items-center space-x-2">
+              <User className="h-5 w-5 text-gray-600" />
+              <span className="text-sm text-gray-700 hidden md:inline">
+                {user?.firstName} {user?.lastName}
+              </span>
+            </div>
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-1 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+              title="Logout"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden md:inline text-sm">Logout</span>
+            </button>
+
+            {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -90,8 +119,8 @@ export function AppHeader({ setPage, currentPage }) {
                 <CloseIcon size={24} aria-hidden="true" />
               ) : (
                 <MenuIcon size={24} aria-hidden="true" />
-              )}
-            </button>
+              )}              </button>
+            </div>
           </div>
         </div>
 
