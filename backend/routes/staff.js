@@ -1,7 +1,7 @@
 const express = require('express');
 const { body, query, param } = require('express-validator');
 const { authenticateToken, requireRole } = require('../middleware/authMiddleware');
-const { asyncWrapper, validateRequest } = require('../middleware/errorMiddleware');
+const { asyncHandler, validateRequest } = require('../middleware/errorMiddleware');
 const pool = require('../config/database');
 
 const router = express.Router();
@@ -39,15 +39,15 @@ const staffQuerySchema = [
   query('page').optional().isInt({ min: 1 }).withMessage('Page must be positive integer'),
   query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be 1-100'),
   query('search').optional().trim().isLength({ max: 100 }).withMessage('Search must be max 100 characters'),
-  query('position').optional().trim().withMessage('Position filter invalid'),
-  query('department').optional().trim().withMessage('Department filter invalid'),
+  query('position').optional().trim(),
+  query('department').optional().trim(),
   query('isActive').optional().isBoolean().withMessage('isActive must be boolean'),
   query('sortBy').optional().isIn(['firstName', 'lastName', 'position', 'hourlyRate', 'createdAt']).withMessage('Invalid sort field'),
   query('sortOrder').optional().isIn(['asc', 'desc']).withMessage('Sort order must be asc or desc')
 ];
 
 // Get all staff members
-router.get('/', authenticateToken, staffQuerySchema, validateRequest, asyncWrapper(async (req, res) => {
+router.get('/', authenticateToken, staffQuerySchema, validateRequest, asyncHandler(async (req, res) => {
   const {
     page = 1,
     limit = 20,
@@ -154,7 +154,7 @@ router.get('/', authenticateToken, staffQuerySchema, validateRequest, asyncWrapp
 }));
 
 // Get staff member by ID
-router.get('/:id', authenticateToken, param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncWrapper(async (req, res) => {
+router.get('/:id', authenticateToken, param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const query = `
@@ -212,7 +212,7 @@ router.get('/:id', authenticateToken, param('id').isUUID().withMessage('Invalid 
 }));
 
 // Create new staff member
-router.post('/', authenticateToken, requireRole(['admin']), createStaffSchema, validateRequest, asyncWrapper(async (req, res) => {
+router.post('/', authenticateToken, requireRole(['admin']), createStaffSchema, validateRequest, asyncHandler(async (req, res) => {
   const {
     firstName,
     lastName,
@@ -269,7 +269,7 @@ router.post('/', authenticateToken, requireRole(['admin']), createStaffSchema, v
 }));
 
 // Update staff member
-router.put('/:id', authenticateToken, requireRole(['admin']), param('id').isUUID().withMessage('Invalid staff ID'), updateStaffSchema, validateRequest, asyncWrapper(async (req, res) => {
+router.put('/:id', authenticateToken, requireRole(['admin']), param('id').isUUID().withMessage('Invalid staff ID'), updateStaffSchema, validateRequest, asyncHandler(async (req, res) => {
   const { id } = req.params;
   
   // Check if staff exists
@@ -354,7 +354,7 @@ router.put('/:id', authenticateToken, requireRole(['admin']), param('id').isUUID
 }));
 
 // Delete staff member
-router.delete('/:id', authenticateToken, requireRole(['admin']), param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncWrapper(async (req, res) => {
+router.delete('/:id', authenticateToken, requireRole(['admin']), param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   // Check if staff exists
@@ -390,7 +390,7 @@ router.delete('/:id', authenticateToken, requireRole(['admin']), param('id').isU
 }));
 
 // Get staff availability
-router.get('/:id/availability', authenticateToken, param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncWrapper(async (req, res) => {
+router.get('/:id/availability', authenticateToken, param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { startDate, endDate } = req.query;
 
@@ -440,7 +440,7 @@ router.get('/:id/availability', authenticateToken, param('id').isUUID().withMess
 }));
 
 // Update staff availability
-router.put('/:id/availability', authenticateToken, requireRole(['admin']), param('id').isUUID().withMessage('Invalid staff ID'), body('availability').isObject().withMessage('Availability must be an object'), validateRequest, asyncWrapper(async (req, res) => {
+router.put('/:id/availability', authenticateToken, requireRole(['admin']), param('id').isUUID().withMessage('Invalid staff ID'), body('availability').isObject().withMessage('Availability must be an object'), validateRequest, asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { availability } = req.body;
 
@@ -466,7 +466,7 @@ router.put('/:id/availability', authenticateToken, requireRole(['admin']), param
 }));
 
 // Get staff performance stats
-router.get('/:id/performance', authenticateToken, param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncWrapper(async (req, res) => {
+router.get('/:id/performance', authenticateToken, param('id').isUUID().withMessage('Invalid staff ID'), validateRequest, asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { year = new Date().getFullYear() } = req.query;
 

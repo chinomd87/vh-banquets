@@ -1,8 +1,22 @@
-# VH Banquets - Professional Event Management System
+# VH Banquets - Event Management System
 
-A comprehensive event management and banquet planning application built with React, featuring accessibility, security, and modern deployment practices.
+![VH Banquets](https://img.shields.io/badge/VH%20Banquets-Event%20Management-blue)
+![React Native](https://img.shields.io/badge/React%20Native-Mobile%20App-green)
+![Node.js](https://img.shields.io/badge/Node.js-Backend%20API-yellow)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-orange)
 
-🌐 **Live Site**: [vhbanquets.com](https://vhbanquets.com)
+A comprehensive mobile-first event management and banquet planning system built with React Native, Node.js, and PostgreSQL.
+
+## 🏗️ **Project Architecture**
+
+```
+vh-banquets/
+├── mobile/              # React Native Mobile App (Primary Interface)
+├── backend/             # Node.js/Express API + PostgreSQL
+├── docs/                # Documentation & Legacy Component Backups
+├── legacy-*/            # Deprecated files (to be removed)
+└── README.md            # This file
+```
 
 ## Features
 
