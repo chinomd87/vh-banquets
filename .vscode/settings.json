@@ -84,5 +84,6 @@
         "**/public/.htaccess"
       ]
     }
-  }
+  },
+  "liveServer.settings.port": 5501
 }
